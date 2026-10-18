@@ -1,0 +1,353 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kembara Ayat</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Nunito+Sans:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: satu lajur sempit seperti buku latihan; peta peringkat 2x2, kemudian satu soalan pada satu masa. */
+:root{
+  --bg:#FBF7EF; --surface:#FFFDF8; --line:#E6DCC8; --fg:#1E2B3C; --muted:#4F5B6B;
+  --primary:#1F7A70; --on-primary:#FBF7EF; --amber:#F2A33A; --on-amber:#1E2B3C;
+  --ok-bg:#DDF1EC; --ok-fg:#14584F; --bad-bg:#FBE3DA; --bad-fg:#9A3519; --soft:#F3EBDC;
+  --font-display:'Fredoka','Trebuchet MS',Arial,sans-serif;
+  --font-body:'Nunito Sans',Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141D29; --surface:#1E2B3C; --line:#33445B; --fg:#FBF7EF; --muted:#B8C0CC;
+    --primary:#4CC2B1; --on-primary:#10222B;
+    --ok-bg:#12453F; --ok-fg:#9BE6DA; --bad-bg:#4A2620; --bad-fg:#FFB9A5; --soft:#26364B;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141D29; --surface:#1E2B3C; --line:#33445B; --fg:#FBF7EF; --muted:#B8C0CC;
+  --primary:#4CC2B1; --on-primary:#10222B;
+  --ok-bg:#12453F; --ok-fg:#9BE6DA; --bad-bg:#4A2620; --bad-fg:#FFB9A5; --soft:#26364B;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:20px;line-height:1.45}
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.eyebrow{font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* Home */
+.hero{display:flex;flex-direction:column;gap:10px;padding-block:8px 24px}
+.hero h1{font-size:clamp(44px,9vw,72px);font-weight:600}
+.hero h1 .bang{color:var(--amber)}
+.hero p.lead{color:var(--muted);max-width:34em}
+.stat{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-block:8px 20px}
+.pill{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border-radius:999px;padding:8px 18px;font-weight:700;font-size:18px}
+.pill b{font-family:var(--font-display);font-size:22px;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.lv{display:flex;flex-direction:column;gap:10px;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:22px;min-width:0;transition:transform .15s,border-color .15s}
+.lv:hover{transform:translateY(-3px);border-color:var(--primary)}
+.lv .no{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.lv h2{font-size:30px}
+.lv .tag{align-self:flex-start;background:var(--amber);color:var(--on-amber);font-weight:800;font-size:16px;border-radius:999px;padding:3px 14px}
+.lv .desc{color:var(--muted);font-size:18px}
+.lv .best{margin-top:auto;display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;padding-top:6px}
+.stars{display:inline-flex;gap:3px;color:var(--amber)}
+.stars svg{width:26px;height:26px}
+.final{background:var(--primary);color:var(--on-primary);border-radius:20px;padding:24px;margin-top:20px;display:flex;flex-direction:column;gap:6px}
+.final h2{font-size:34px}
+
+/* Play */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.back{background:none;border:2px solid var(--line);border-radius:999px;padding:8px 18px;font-weight:700;font-size:17px}
+.back:hover{border-color:var(--primary)}
+.meter{height:12px;border-radius:99px;background:var(--soft);overflow:hidden;margin-bottom:8px}
+.meter i{display:block;height:100%;background:var(--primary);border-radius:99px;transition:width .3s}
+.count{display:flex;justify-content:space-between;color:var(--muted);font-weight:700;font-size:17px;margin-bottom:22px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:clamp(18px,4vw,32px);display:flex;flex-direction:column;gap:20px}
+.ask{font-weight:800;color:var(--muted);font-size:18px}
+.scene{display:flex;gap:18px;align-items:center}
+.face{font-size:76px;line-height:1;flex:none}
+.situasi{font-family:var(--font-display);font-size:clamp(24px,5vw,30px);line-height:1.25;font-weight:500}
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;min-height:62px;padding:12px 20px;background:var(--bg);border:2px solid var(--line);border-radius:16px;font-family:var(--font-display);font-size:clamp(22px,4.6vw,28px);font-weight:500;min-width:0;overflow-wrap:anywhere}
+.opt:hover:not(:disabled){border-color:var(--primary)}
+.opt:disabled{cursor:default}
+.opt::after{content:attr(data-mark);font-family:var(--font-body);font-size:16px;font-weight:800;flex:none}
+.opt.right{background:var(--ok-bg);border-color:var(--ok-fg);color:var(--ok-fg)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad-fg);color:var(--bad-fg)}
+.bubble{position:relative;background:var(--soft);border-radius:22px;padding:24px 26px}
+.say{font-family:var(--font-display);font-size:clamp(30px,7vw,44px);font-weight:600;line-height:1.2;overflow-wrap:anywhere}
+.rule{background:var(--amber);color:var(--on-amber);border-radius:14px;padding:10px 16px;font-weight:700;font-size:18px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.duo .opt{justify-content:center;font-size:32px;min-height:84px}
+.duo .opt::after{display:none}
+.sentence{font-family:var(--font-display);font-size:clamp(28px,6.5vw,40px);font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.tri{display:grid;gap:12px}
+.chip{border:2px solid var(--line);background:var(--bg);border-radius:14px;padding:8px 16px;font-family:var(--font-display);font-size:clamp(22px,5vw,28px);font-weight:500;min-height:54px}
+.chip:hover:not(:disabled){border-color:var(--primary)}
+.chip:disabled{cursor:default}
+.line,.tray{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;min-height:74px;padding:12px;border-radius:16px}
+.line{border:3px dashed var(--line);background:var(--surface)}
+.line:empty::before{content:"Ketik kad di bawah untuk menyusun ayat.";color:var(--muted);font-size:17px;font-family:var(--font-body);align-self:center}
+.line .chip{background:var(--soft)}
+.tray{background:var(--soft)}
+.tray .gap{visibility:hidden}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.btn{border:0;border-radius:16px;padding:14px 26px;font-weight:800;font-size:20px;min-height:56px}
+.btn.primary{background:var(--primary);color:var(--on-primary)}
+.btn.primary:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:none;border:2px solid var(--line)}
+.btn.ghost:hover{border-color:var(--primary)}
+.fb{border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.fb.ok{background:var(--ok-bg);color:var(--ok-fg)}
+.fb.bad{background:var(--bad-bg);color:var(--bad-fg)}
+.fb .t{font-family:var(--font-display);font-size:28px;font-weight:600}
+.fb .why{font-size:19px;color:var(--fg)}
+.fb .btn{align-self:flex-start;background:var(--fg);color:var(--bg)}
+.kw{border-radius:8px;padding:1px 8px;font-weight:800}
+.kw.seru{background:var(--amber);color:var(--on-amber)}
+.kw.perin{background:var(--primary);color:var(--on-primary)}
+.punc{color:var(--amber);font-size:1.25em}
+.fb .punc{color:inherit}
+
+/* Result */
+.result{text-align:center;align-items:center}
+.result .stars svg{width:54px;height:54px}
+.result h2{font-size:clamp(34px,8vw,48px)}
+.big{font-family:var(--font-display);font-size:64px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+@media (max-width:420px){.scene{flex-direction:column;align-items:flex-start}.duo .opt{font-size:28px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<main class="wrap" id="app"></main>
+
+<script>
+(function(){
+  var app=document.getElementById('app');
+  function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function hl(s){
+    return esc(s)
+      .replace(/^(Wah|Aduh|Amboi|Hore|Eh)\b/,'<span class="kw seru">$1</span>')
+      .replace(/^(Sila|Jangan|Tolong)\b/,'<span class="kw perin">$1</span>')
+      .replace(/([!.?])$/,'<span class="punc">$1</span>');
+  }
+  function stars(n){
+    var out='<span class="stars" role="img" aria-label="'+n+' daripada 3 bintang">';
+    for(var i=0;i<3;i++){
+      out+='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 15,9 22,9.5 16.5,14.5 18.2,22 12,18 5.8,22 7.5,14.5 2,9.5 9,9" fill="'+(i<n?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+    }
+    return out+'</span>';
+  }
+
+  var LEVELS=[
+    {name:'Teka Ekspresi',tag:'Ayat seruan',desc:'Lihat wajah dan situasi, kemudian pilih ayat seruan yang sesuai dengan perasaan itu.',type:'choice',items:[
+      {e:'😲',s:'Ali melihat pelangi yang sangat cantik.',o:['Wah, cantiknya pelangi itu!','Aduh, sakitnya kaki saya!','Hore, kita menang!'],why:'Kata seruan “Wah” menyatakan perasaan kagum.'},
+      {e:'😣',s:'Mira terjatuh dan kakinya sakit.',o:['Aduh, sakitnya kaki saya!','Hore, kita menang!','Wah, cantiknya pelangi itu!'],why:'Kata seruan “Aduh” menyatakan rasa sakit.'},
+      {e:'🥳',s:'Pasukan kelas Tahun 3 memenangi pertandingan.',o:['Hore, kita menang!','Aduh, sakitnya kaki saya!','Eh, kucing itu melompat!'],why:'Kata seruan “Hore” menyatakan perasaan gembira.'},
+      {e:'😮',s:'Seekor kucing tiba-tiba melompat keluar dari bakul.',o:['Eh, kucing itu melompat!','Hore, kita menang!','Amboi, banyaknya makanan!'],why:'Kata seruan “Eh” menyatakan perasaan terkejut.'},
+      {e:'🤩',s:'Atuk menyediakan banyak makanan untuk kenduri.',o:['Amboi, banyaknya makanan!','Aduh, sakitnya kaki saya!','Eh, kucing itu melompat!'],why:'Kata seruan “Amboi” menyatakan perasaan kagum.'},
+      {e:'😖',s:'Tangan Dina terkena duri ketika memetik bunga.',o:['Aduh, pedihnya tangan saya!','Wah, cantiknya pelangi itu!','Hore, kita menang!'],why:'Kata seruan “Aduh” menyatakan rasa sakit atau pedih.'}
+    ]},
+    {name:'Cikgu Kata',tag:'Ayat perintah',desc:'Dengar arahan Cikgu Kata. Buat hanya jika arahan bermula dengan kata “Sila”.',type:'cikgu',items:[
+      {t:'Sila berdiri.',sila:1,why:'Ayat perintah ini bermula dengan “Sila”, jadi anda mesti buat.'},
+      {t:'Angkat tangan.',sila:0,why:'Ini ayat perintah, tetapi tiada kata “Sila”. Dalam permainan ini anda tidak buat.'},
+      {t:'Sila buka buku teks.',sila:1,why:'“Sila” mempersilakan murid melakukan sesuatu. Buat!'},
+      {t:'Jangan bising.',sila:0,why:'“Jangan” ialah kata perintah untuk melarang. Tiada “Sila”, jadi tidak buat.'},
+      {t:'Cikgu sedang mengajar.',sila:0,why:'Ini ayat penyata kerana memberi maklumat, bukan arahan.'},
+      {t:'Sila duduk dengan tertib.',sila:1,why:'Bermula dengan “Sila”. Buat!'},
+      {t:'Tolong tutup pintu.',sila:0,why:'“Tolong” meminta bantuan dan ini ayat perintah, tetapi tiada “Sila”. Tidak buat.'},
+      {t:'Sila angkat tangan.',sila:1,why:'Bermula dengan “Sila”. Buat!'}
+    ]},
+    {name:'Bina Ayat',tag:'Seruan dan perintah',desc:'Susun kad perkataan menjadi ayat yang betul. Jangan lupa tanda baca di hujung ayat.',type:'build',items:[
+      {s:'Wah, cantiknya pelangi itu!',h:'Ayat seruan untuk menyatakan kagum.'},
+      {s:'Sila duduk dengan tertib.',h:'Ayat perintah untuk mempersilakan.'},
+      {s:'Aduh, sakitnya kaki saya!',h:'Ayat seruan untuk menyatakan sakit.'},
+      {s:'Jangan membuang sampah merata-rata.',h:'Ayat perintah untuk melarang.'},
+      {s:'Hore, kita menang!',h:'Ayat seruan untuk menyatakan gembira.'},
+      {s:'Tolong tutup pintu itu.',h:'Ayat perintah untuk meminta tolong.'}
+    ]},
+    {name:'Kuiz Cepat',tag:'Padankan jenis ayat',desc:'Baca setiap ayat dan padankan dengan jenis yang betul. Ada ayat yang bukan seruan dan bukan perintah.',type:'kuiz',items:[
+      {s:'Wah, besarnya gajah itu!',k:'seruan',why:'Bermula dengan kata seruan “Wah” dan berakhir dengan tanda seru.'},
+      {s:'Sila ambil buku latihan.',k:'perintah',why:'Kata “Sila” mempersilakan seseorang melakukan sesuatu.'},
+      {s:'Ibu memasak nasi goreng.',k:'lain',why:'Ayat penyata. Ia memberi maklumat sahaja.'},
+      {s:'Hore, cuti sekolah sudah tiba!',k:'seruan',why:'“Hore” menyatakan gembira.'},
+      {s:'Jangan berlari di dalam kelas.',k:'perintah',why:'“Jangan” melarang. Larangan ialah ayat perintah.'},
+      {s:'Adakah kamu sudah makan?',k:'lain',why:'Ayat tanya kerana bertanya dan berakhir dengan tanda soal.'},
+      {s:'Tolong hantar buku ini kepada guru.',k:'perintah',why:'“Tolong” meminta seseorang melakukan sesuatu.'},
+      {s:'Aduh, panasnya hari ini!',k:'seruan',why:'“Aduh” menyatakan perasaan tidak selesa.'}
+    ]}
+  ];
+  var KUIZ_LABEL={seruan:'Ayat seruan',perintah:'Ayat perintah',lain:'Bukan keduanya (penyata atau tanya)'};
+
+  var S={res:[null,null,null,null],lv:-1,idx:0,ok:0,locked:false,built:[],order:[],opts:[]};
+
+  function total(){return S.res.reduce(function(a,r){return a+(r?r.ok*10:0);},0);}
+  function doneCount(){return S.res.filter(Boolean).length;}
+  function starsFor(r){var p=r.ok/r.n;return p>=0.84?3:(p>=0.6?2:1);}
+
+  function home(){
+    S.lv=-1;
+    var cards=LEVELS.map(function(L,i){
+      var r=S.res[i];
+      return '<button class="lv" data-act="start" data-i="'+i+'">'+
+        '<span class="no">Peringkat '+(i+1)+'</span>'+
+        '<h2>'+L.name+'</h2>'+
+        '<span class="tag">'+L.tag+'</span>'+
+        '<p class="desc">'+L.desc+'</p>'+
+        '<span class="best">'+(r?stars(starsFor(r))+' '+r.ok+' / '+r.n+' betul':'Belum dimain')+'</span>'+
+      '</button>';
+    }).join('');
+    var final='';
+    if(doneCount()===4){
+      var t=total(),max=LEVELS.reduce(function(a,L){return a+L.items.length*10;},0);
+      var title=t>=max*0.84?'Jaguh Ayat':(t>=max*0.6?'Pengembara Ayat':'Pelajar Rajin');
+      final='<section class="final"><p class="eyebrow" style="color:inherit;opacity:.85">Keputusan akhir</p><h2>'+title+'</h2><p>Anda mengumpul '+t+' daripada '+max+' mata. Main semula mana-mana peringkat untuk menambah bintang.</p></section>';
+    }
+    app.innerHTML=
+      '<header class="hero"><p class="eyebrow">Bahasa Melayu Tahun 3 · SP 5.3.1</p>'+
+      '<h1>Kembara Ayat<span class="bang">!</span></h1>'+
+      '<p class="lead">Empat peringkat untuk melatih ayat seruan dan ayat perintah. Pilih peringkat untuk bermula.</p></header>'+
+      '<div class="stat"><span class="pill">Mata <b>'+total()+'</b></span><span class="pill">Peringkat selesai <b>'+doneCount()+' / 4</b></span></div>'+
+      '<div class="grid">'+cards+'</div>'+final;
+    window.scrollTo(0,0);
+  }
+
+  function startLevel(i){S.lv=i;S.idx=0;S.ok=0;question();}
+
+  function frame(inner){
+    var L=LEVELS[S.lv],n=L.items.length;
+    app.innerHTML=
+      '<div class="top"><button class="back" data-act="home">← Peta</button><span class="pill">Mata <b>'+(total()+S.ok*10)+'</b></span></div>'+
+      '<h2 style="font-size:30px;margin-bottom:12px">'+L.name+'</h2>'+
+      '<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="'+n+'" aria-valuenow="'+S.idx+'"><i style="width:'+(S.idx/n*100)+'%"></i></div>'+
+      '<div class="count"><span>Soalan '+(S.idx+1)+' / '+n+'</span><span>'+S.ok+' betul</span></div>'+
+      '<section class="card">'+inner+'<div id="fb"></div></section>';
+  }
+
+  function question(){
+    var L=LEVELS[S.lv],it=L.items[S.idx],b='';
+    S.locked=false;
+    if(L.type==='choice'){
+      S.opts=shuffle(it.o.map(function(t,i){return {t:t,ok:i===0};}));
+      b='<div class="scene"><div class="face" aria-hidden="true">'+it.e+'</div><p class="situasi">'+esc(it.s)+'</p></div>'+
+        '<p class="ask">Pilih ayat seruan yang sesuai.</p><div class="opts">'+
+        S.opts.map(function(o,i){return '<button class="opt" data-act="pick" data-i="'+i+'">'+esc(o.t)+'</button>';}).join('')+'</div>';
+    }else if(L.type==='cikgu'){
+      b='<p class="ask">Cikgu Kata berkata:</p><div class="bubble"><p class="say">'+esc(it.t)+'</p></div>'+
+        '<p class="rule">Peraturan: buat hanya jika ayat bermula dengan “Sila”.</p>'+
+        '<div class="duo"><button class="opt" data-act="cikgu" data-a="buat">Buat!</button><button class="opt" data-act="cikgu" data-a="diam">Diam!</button></div>';
+    }else if(L.type==='build'){
+      it.t=it.s.match(/[^\s!.]+|[!.]/g);
+      var base=it.t.map(function(_,i){return i;}),ord;
+      do{ord=shuffle(base);}while(ord.join()===base.join());
+      S.order=ord;S.built=[];
+      b='<p class="ask">'+esc(it.h)+'</p><div class="line" id="line" aria-label="Ayat anda"></div>'+
+        '<div class="tray" id="tray" aria-label="Kad perkataan"></div>'+
+        '<div class="row"><button class="btn primary" id="check" data-act="check" disabled>Semak</button><button class="btn ghost" data-act="reset">Set semula</button></div>';
+    }else{
+      b='<p class="ask">Apakah jenis ayat ini?</p><p class="sentence">'+esc(it.s)+'</p><div class="tri">'+
+        ['seruan','perintah','lain'].map(function(k){return '<button class="opt" data-act="kuiz" data-k="'+k+'">'+KUIZ_LABEL[k]+'</button>';}).join('')+'</div>';
+    }
+    frame(b);
+    if(L.type==='build')paintBuild();
+    window.scrollTo(0,0);
+  }
+
+  function paintBuild(){
+    var it=LEVELS[S.lv].items[S.idx];
+    document.getElementById('line').innerHTML=S.built.map(function(k,p){
+      return '<button class="chip" data-act="unplace" data-p="'+p+'">'+esc(it.t[k])+'</button>';
+    }).join('');
+    document.getElementById('tray').innerHTML=S.order.map(function(k){
+      var used=S.built.indexOf(k)>-1;
+      return used?'<span class="chip gap" aria-hidden="true">'+esc(it.t[k])+'</span>':'<button class="chip" data-act="place" data-k="'+k+'">'+esc(it.t[k])+'</button>';
+    }).join('');
+    document.getElementById('check').disabled=S.built.length!==it.t.length;
+  }
+
+  function lock(){
+    S.locked=true;
+    var all=app.querySelectorAll('.card button');
+    for(var i=0;i<all.length;i++){if(all[i].id!=='fb-next')all[i].disabled=true;}
+  }
+
+  function feedback(correct,why){
+    var L=LEVELS[S.lv],last=S.idx===L.items.length-1;
+    if(correct)S.ok++;
+    document.getElementById('fb').innerHTML=
+      '<div class="fb '+(correct?'ok':'bad')+'" role="status"><p class="t">'+(correct?'Betul! +10 mata':'Belum tepat')+'</p><p class="why">'+why+'</p>'+
+      '<button class="btn" id="fb-next" data-act="next">'+(last?'Lihat keputusan':'Seterusnya')+'</button></div>';
+    var nb=document.getElementById('fb-next');
+    if(nb){nb.focus();nb.scrollIntoView({block:'nearest',behavior:'smooth'});}
+  }
+
+  function next(){
+    var L=LEVELS[S.lv];
+    S.idx++;
+    if(S.idx>=L.items.length){S.res[S.lv]={ok:S.ok,n:L.items.length};result();}
+    else question();
+  }
+
+  function result(){
+    var L=LEVELS[S.lv],r=S.res[S.lv],n=starsFor(r);
+    var msg=n===3?'Hebat! Anda menguasai peringkat ini.':(n===2?'Bagus. Cuba lagi untuk mendapat tiga bintang.':'Teruskan berlatih. Anda boleh main semula.');
+    var nextI=S.lv<3?S.lv+1:-1;
+    app.innerHTML=
+      '<div class="top"><button class="back" data-act="home">← Peta</button><span class="pill">Mata <b>'+total()+'</b></span></div>'+
+      '<section class="card result"><p class="eyebrow">'+L.name+' selesai</p>'+stars(n)+
+      '<p class="big">'+r.ok+' / '+r.n+'</p><h2>'+msg+'</h2>'+
+      '<div class="row" style="justify-content:center"><button class="btn primary" data-act="start" data-i="'+S.lv+'">Main semula</button>'+
+      (nextI>-1?'<button class="btn ghost" data-act="start" data-i="'+nextI+'">Peringkat seterusnya</button>':'')+
+      '<button class="btn ghost" data-act="home">Peta peringkat</button></div></section>';
+    window.scrollTo(0,0);
+  }
+
+  app.addEventListener('click',function(e){
+    var el=e.target.closest('[data-act]');
+    if(!el||el.disabled)return;
+    var act=el.getAttribute('data-act'),L=S.lv>-1?LEVELS[S.lv]:null,it=L?L.items[S.idx]:null;
+    if(act==='start'){startLevel(+el.getAttribute('data-i'));return;}
+    if(act==='home'){home();return;}
+    if(act==='next'){next();return;}
+    if(S.locked)return;
+    if(act==='pick'){
+      var o=S.opts[+el.getAttribute('data-i')],btns=app.querySelectorAll('.opt'),i;
+      lock();
+      for(i=0;i<btns.length;i++){
+        if(S.opts[i].ok){btns[i].classList.add('right');btns[i].setAttribute('data-mark','Betul');}
+      }
+      if(!o.ok){el.classList.add('wrong');el.setAttribute('data-mark','Salah');}
+      feedback(o.ok,'<b>'+hl(S.opts.filter(function(x){return x.ok;})[0].t)+'</b><br>'+it.why);
+    }else if(act==='cikgu'){
+      var a=el.getAttribute('data-a'),want=it.sila?'buat':'diam',good=a===want;
+      lock();
+      el.classList.add(good?'right':'wrong');
+      feedback(good,'<b>'+hl(it.t)+'</b><br>'+it.why);
+    }else if(act==='kuiz'){
+      var k=el.getAttribute('data-k'),okk=k===it.k,bs=app.querySelectorAll('.opt'),j;
+      lock();
+      for(j=0;j<bs.length;j++){
+        if(bs[j].getAttribute('data-k')===it.k){bs[j].classList.add('right');bs[j].setAttribute('data-mark','Betul');}
+      }
+      if(!okk){el.classList.add('wrong');el.setAttribute('data-mark','Salah');}
+      feedback(okk,'<b>'+hl(it.s)+'</b><br>'+it.why);
+    }else if(act==='place'){
+      S.built.push(+el.getAttribute('data-k'));paintBuild();
+    }else if(act==='unplace'){
+      S.built.splice(+el.getAttribute('data-p'),1);paintBuild();
+    }else if(act==='reset'){
+      S.built=[];paintBuild();
+    }else if(act==='check'){
+      var made=S.built.map(function(k){return it.t[k];}).join(' ').replace(/ ([!.])$/,'$1'),good2=made===it.s;
+      lock();
+      document.getElementById('line').style.borderColor=good2?'var(--ok-fg)':'var(--bad-fg)';
+      feedback(good2,good2?'<b>'+hl(it.s)+'</b><br>Ayat anda betul dan tanda bacanya tepat.':'Ayat anda: '+esc(made)+'<br>Jawapan betul: <b>'+hl(it.s)+'</b>');
+    }
+  });
+
+  home();
+})();
+</script>
+
+</body></html>
